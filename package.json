@@ -15,17 +15,19 @@
         ]
     },
     "scripts": {
-        "start": "react-scripts start",
-        "build": "react-scripts build",
-        "test": "react-scripts test",
+        "start": "craco start",
+        "build": "craco build",
+        "test": "craco test",
         "eject": "react-scripts eject"
     },
     "dependencies": {
         "react": "16.13.1",
         "react-dom": "16.13.1",
-        "react-helmet": "6.0.0"
+        "react-helmet": "6.0.0",
+        "react-router-dom": "5.1.2"
     },
     "devDependencies": {
+        "@craco/craco": "5.6.4",
         "@testing-library/jest-dom": "5.5.0",
         "@testing-library/react": "10.0.4",
         "@testing-library/user-event": "10.1.0",
@@ -34,6 +36,7 @@
         "@types/react": "16.9.34",
         "@types/react-dom": "16.9.7",
         "@types/react-helmet": "5.0.15",
+        "@types/react-router-dom": "^5.1.5",
         "husky": "4.2.5",
         "lint-staged": "10.2.2",
         "prettier": "2.0.5",
@@ -44,10 +47,7 @@
         "extends": "react-app"
     },
     "lint-staged": {
-        "source/**/*.{ts,tsx,json,css}": [
-            "prettier --config .prettierrc --write",
-            "git add"
-        ]
+        "*.{js,ts,tsx,md,html,css,json,xml,yml}": "prettier --write"
     },
     "husky": {
         "hooks": {

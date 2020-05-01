@@ -1,6 +1,8 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 
+import ApplicationRouter from './ApplicationRouter';
+
 const Application = () => (
     <>
         <Helmet>
@@ -10,7 +12,7 @@ const Application = () => (
                 href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
             />
         </Helmet>
-        <div>It's alive...</div>
+        <ApplicationRouter />
     </>
 );
 
