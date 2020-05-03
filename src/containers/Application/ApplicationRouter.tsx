@@ -4,13 +4,11 @@ import { Switch, Route } from 'react-router-dom';
 import HomePage from 'pages/HomePage';
 import NotFoundPage from 'pages/NotFoundPage';
 
-const ApplicationRouter = () => {
-    return (
-        <Switch>
-            <Route exact path="/" component={HomePage} />
-            <Route component={NotFoundPage} />
-        </Switch>
-    );
-};
+const ApplicationRouter = () => (
+    <Switch>
+        <Route exact path="/" component={HomePage} />
+        <Route component={NotFoundPage} />
+    </Switch>
+);
 
 export default ApplicationRouter;

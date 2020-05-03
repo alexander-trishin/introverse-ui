@@ -1,7 +1,8 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
+import { CssBaseline } from '@material-ui/core';
 
-import ApplicationRouter from './ApplicationRouter';
+import ApplicationTheme from './ApplicationTheme';
 
 const Application = () => (
     <>
@@ -11,8 +12,10 @@ const Application = () => (
                 rel="stylesheet"
                 href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
             />
+            <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
         </Helmet>
-        <ApplicationRouter />
+        <CssBaseline />
+        <ApplicationTheme />
     </>
 );
 

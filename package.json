@@ -21,6 +21,10 @@
         "eject": "react-scripts eject"
     },
     "dependencies": {
+        "@material-ui/core": "4.9.12",
+        "@material-ui/icons": "4.9.1",
+        "@material-ui/styles": "4.9.10",
+        "@material-ui/system": "4.9.10",
         "react": "16.13.1",
         "react-dom": "16.13.1",
         "react-helmet": "6.0.0",
