@@ -1,7 +1,9 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Box, Typography } from '@material-ui/core';
 
 const HomePage = () => {
+    const { t } = useTranslation();
     const [ellipsis, setEllipsis] = React.useState('.');
 
     React.useEffect(() => {
@@ -21,7 +23,7 @@ const HomePage = () => {
             flexDirection="column"
         >
             <Typography variant="h6" color="primary">
-                Work in progress {ellipsis}
+                {t('under-construction')} {ellipsis}
             </Typography>
         </Box>
     );

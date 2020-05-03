@@ -25,9 +25,12 @@
         "@material-ui/icons": "4.9.1",
         "@material-ui/styles": "4.9.10",
         "@material-ui/system": "4.9.10",
+        "i18next": "19.4.4",
+        "i18next-browser-languagedetector": "4.1.1",
         "react": "16.13.1",
         "react-dom": "16.13.1",
         "react-helmet": "6.0.0",
+        "react-i18next": "11.4.0",
         "react-router-dom": "5.1.2"
     },
     "devDependencies": {

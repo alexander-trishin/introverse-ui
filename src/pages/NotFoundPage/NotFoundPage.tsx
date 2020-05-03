@@ -1,10 +1,12 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Typography, Box, Button } from '@material-ui/core';
 import { ArrowBack, Home } from '@material-ui/icons';
 
 const NotFoundPage = () => {
     const history = useHistory();
+    const { t } = useTranslation();
 
     const goBack = () => history.goBack();
     const goHome = () => history.replace('/');
@@ -25,17 +27,19 @@ const NotFoundPage = () => {
                 404
             </Typography>
             <Typography variant="h5" color="textSecondary">
-                No route for: {history.location.pathname}
+                {t('page-not-found')}: {history.location.pathname}
             </Typography>
             <Box p={2}>
-                <Box mr={4} clone>
+                <Box display="inline" m={2}>
                     <Button startIcon={<ArrowBack />} variant="outlined" onClick={goBack}>
-                        Go Back
+                        {t('go-back')}
                     </Button>
                 </Box>
-                <Button startIcon={<Home />} variant="outlined" onClick={goHome}>
-                    Go Home
-                </Button>
+                <Box display="inline" m={2}>
+                    <Button startIcon={<Home />} variant="outlined" onClick={goHome}>
+                        {t('go-home')}
+                    </Button>
+                </Box>
             </Box>
         </Box>
     );
