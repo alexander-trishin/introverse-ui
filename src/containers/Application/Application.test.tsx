@@ -19,6 +19,7 @@ describe('<Application />', () => {
             routerProps: { initialEntries: ['/not-exists'], initialIndex: 0 },
         });
 
-        expect(getByText('404')).toBeInTheDocument();
+        const regex = new RegExp(getDataByLanguage('en').translations['page-not-found'], 'i');
+        expect(getByText(regex)).toBeInTheDocument();
     });
 });
