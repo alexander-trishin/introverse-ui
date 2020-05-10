@@ -1,7 +1,8 @@
-import Locale from './Locale';
+import Translation from './Translation';
 
-const ru: Locale = {
+const ru: Translation = {
     translations: {
+        'come-later': 'Пожалуйста, возвращайтесь позже',
         'under-construction': 'В разработке',
         'page-not-found': 'Страница не найдена',
         'go-back': 'Вернуться',

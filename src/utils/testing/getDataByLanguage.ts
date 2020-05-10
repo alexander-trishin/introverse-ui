@@ -1,7 +1,7 @@
 import { i18n } from 'utils';
-import { Locale } from 'utils/locales';
+import { Translation } from 'utils/translations';
 
-const customGetDataByLanguage = (language: string): Locale =>
+const customGetDataByLanguage = (language: string): Translation =>
     i18n.getDataByLanguage(language) as any;
 
 export default customGetDataByLanguage;

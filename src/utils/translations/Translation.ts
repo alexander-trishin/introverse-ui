@@ -1,7 +1,8 @@
 import { ResourceLanguage } from 'i18next';
 
-interface Locale extends ResourceLanguage {
+interface Translation extends ResourceLanguage {
     translations: {
+        'come-later': string;
         'under-construction': string;
         'page-not-found': string;
         'go-back': string;
@@ -9,4 +10,4 @@ interface Locale extends ResourceLanguage {
     };
 }
 
-export default Locale;
+export default Translation;
