@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { I18nextProvider } from 'react-i18next';
 
-import Application from 'containers/Application';
+import { Application } from 'containers';
 import { i18n, serviceWorker } from 'utils';
 
 ReactDOM.render(
