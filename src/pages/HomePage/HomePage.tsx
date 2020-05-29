@@ -3,11 +3,10 @@ import { useTranslation } from 'react-i18next';
 import { Box, Typography, useMediaQuery } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 
-import { UnderConstructionIcon } from 'components/Icons';
+import { ReactComponent as UnderConstructionLogo } from 'assets/svg/under-construction.svg';
 
 const HomePage = () => {
     const { t } = useTranslation();
-
     const theme = useTheme();
     const sm = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -23,10 +22,8 @@ const HomePage = () => {
             justifyContent="center"
             flexDirection="column"
         >
-            <Box height={sm ? '40%' : '70%'} width="90%">
-                <Box height="100% !important" width="100% !important" clone>
-                    <UnderConstructionIcon />
-                </Box>
+            <Box height={sm ? '40%' : '70%'} width="90%" clone>
+                <UnderConstructionLogo />
             </Box>
             <Box color="primary.light" clone>
                 <Typography align="center" variant={sm ? 'h4' : 'h3'}>

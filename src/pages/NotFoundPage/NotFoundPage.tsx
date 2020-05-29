@@ -1,12 +1,11 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-
 import { Typography, Box, Button, useMediaQuery } from '@material-ui/core';
 import { ArrowBack, Home } from '@material-ui/icons';
 import { useTheme } from '@material-ui/core/styles';
 
-import { NotFoundIcon } from 'components/Icons';
+import { ReactComponent as NotFoundLogo } from 'assets/svg/not-found.svg';
 
 const NotFoundPage = () => {
     const history = useHistory();
@@ -30,10 +29,8 @@ const NotFoundPage = () => {
             justifyContent="center"
             flexDirection="column"
         >
-            <Box height={xs ? '25%' : '45%'} width="90%" marginBottom={4}>
-                <Box height="100% !important" width="100% !important" clone>
-                    <NotFoundIcon />
-                </Box>
+            <Box height={xs ? '25%' : '45%'} width="90%" marginBottom={4} clone>
+                <NotFoundLogo />
             </Box>
             <Box color="primary.light" clone>
                 <Typography align="center" variant={xs ? 'h4' : 'h3'}>
