@@ -1,37 +1,58 @@
 import path from 'path';
+import webpack from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-import type { Configuration as WebpackConfig } from 'webpack';
-import type { Configuration as WebpackDevServerConfig } from 'webpack-dev-server';
+import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 
-interface Configuration extends WebpackConfig {
-    devServer?: WebpackDevServerConfig;
-}
+const createWebpackConfiguration = (): webpack.Configuration => {
+    const isDevelopment = process.env.NODE_ENV !== 'production';
 
-const configuration: Configuration = {
-    mode: 'production',
-    entry: './src/index.tsx',
-    output: {
-        path: path.resolve(__dirname, 'build'),
-        filename: 'introverse.bundle.js',
-    },
-    module: {
-        rules: [
-            {
-                test: /\.tsx?$/,
-                exclude: /node_modules/,
-                use: ['babel-loader'],
-            },
+    return {
+        bail: !isDevelopment,
+        mode: isDevelopment ? 'development' : 'production',
+        target: isDevelopment ? 'web' : 'browserslist',
+        devtool: isDevelopment ? 'eval' : 'source-map',
+        entry: {
+            app: [path.resolve(__dirname, 'src', 'index.tsx')]
+        },
+        module: {
+            rules: [
+                {
+                    test: /\.tsx?$/,
+                    exclude: /node_modules/,
+                    use: [
+                        {
+                            loader: 'babel-loader',
+                            options: {
+                                plugins: isDevelopment ? ['react-refresh/babel'] : []
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        plugins: [
+            new HtmlWebpackPlugin({
+                template: path.resolve(__dirname, 'public', 'index.html')
+            }),
+            ...(isDevelopment ? [new ReactRefreshWebpackPlugin()] : [])
         ],
-    },
-    plugins: [
-        new HtmlWebpackPlugin({
-            template: path.resolve(__dirname, 'public', 'index.html'),
-        }),
-    ],
-    devServer: {
-        port: 3000,
-        open: true        
-    }
+        resolve: {
+            alias: {
+                app: path.resolve(__dirname, 'src', 'app')
+            },
+            extensions: ['.ts', '.tsx', '.js'],
+            modules: [path.resolve('./src'), path.resolve('./node_modules')]
+        },
+        output: {
+            path: path.resolve(__dirname, 'build'),
+            filename: isDevelopment ? '[name].bundle.js' : '[name].[contenthash].bundle.js'
+        },
+        devServer: {
+            hot: true,
+            port: 3000,
+            open: true
+        }
+    };
 };
 
-export default configuration;
+export default createWebpackConfiguration;

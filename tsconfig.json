@@ -1,5 +1,9 @@
 {
     "compilerOptions": {
+        "baseUrl": "./src",
+        "paths": {
+            "app/*": ["app/*"]
+        },
         "target": "es6",
         "lib": ["dom", "es6"],
         "jsx": "preserve",
@@ -17,5 +21,6 @@
         "removeComments": true,
         "skipLibCheck": true,
         "strict": true
-    }
+    },
+    "include": ["src"]
 }

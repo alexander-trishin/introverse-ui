@@ -1,3 +1,7 @@
+import 'core-js/stable';
+
 import ReactDOM from 'react-dom';
 
-ReactDOM.render(<div>Hello World</div>, document.getElementById('root'));
+import { Application } from 'app';
+
+ReactDOM.render(<Application />, document.getElementById('root'));
