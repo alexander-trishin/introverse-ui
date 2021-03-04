@@ -2,4 +2,4 @@
 . "$(dirname "$0")/_/husky.sh"
 
 yarn lint --fix --max-warnings=0
-yarn prettier --write '**/*.{ts,tsx,html,json,sass,scss,svg}' --loglevel warn
+yarn prettier --write 'src/**/*.{ts,tsx,html,json,sass,scss,svg}' --loglevel warn

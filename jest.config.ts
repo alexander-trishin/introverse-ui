@@ -32,7 +32,9 @@ const configuration: Config.InitialOptions = {
         ...getJestModuleNameMapper(),
         '\\.(jpg|jpeg|bmp|png|gif|svg)$': '<rootDir>/config/jest/fileMock.ts',
         '\\.(sass|scss)$': '<rootDir>/config/jest/styleMock.ts'
-    }
+    },
+
+    testResultsProcessor: 'jest-sonar-reporter'
 };
 
 export default configuration;
