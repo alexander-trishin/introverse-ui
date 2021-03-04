@@ -1,14 +1,16 @@
-import path from 'path';
-
-import webpack, { EntryObject } from 'webpack';
+import webpack, { DefinePlugin, EntryObject } from 'webpack';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import InterpolateHtmlWebpackPlugin from 'interpolate-html-plugin';
+import { WebpackManifestPlugin as ManifestWebpackPlugin } from 'webpack-manifest-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 
-import { getWebpackResolveAlias } from './config';
+import { getClientEnvironment, getWebpackResolveAlias, paths } from './config';
 
 const createWebpackConfiguration = (): webpack.Configuration => {
+    const clientEnvironment = getClientEnvironment(paths.publicUrlOrPath.slice(0, -1));
     const isDevelopment = process.env.NODE_ENV !== 'production';
 
     return {
@@ -17,7 +19,7 @@ const createWebpackConfiguration = (): webpack.Configuration => {
         target: isDevelopment ? 'web' : 'browserslist',
         devtool: isDevelopment ? 'eval' : 'source-map',
         entry: {
-            app: [path.resolve(__dirname, 'src', 'index.tsx')]
+            main: [paths.indexTsx]
         },
         module: {
             parser: {
@@ -38,7 +40,7 @@ const createWebpackConfiguration = (): webpack.Configuration => {
                         },
                         {
                             test: /\.tsx?$/,
-                            include: path.resolve(__dirname, 'src'),
+                            include: paths.src,
                             loader: 'babel-loader',
                             options: {
                                 plugins: [
@@ -75,11 +77,14 @@ const createWebpackConfiguration = (): webpack.Configuration => {
                         {
                             test: /\.(sass|scss)$/,
                             use: [
-                                {
-                                    loader: isDevelopment
-                                        ? 'style-loader'
-                                        : MiniCssExtractPlugin.loader
-                                },
+                                isDevelopment
+                                    ? 'style-loader'
+                                    : {
+                                          loader: MiniCssExtractPlugin.loader,
+                                          options: paths.publicUrlOrPath.startsWith('.')
+                                              ? { publicPath: '../../' }
+                                              : {}
+                                      },
                                 {
                                     loader: 'css-loader',
                                     options: {
@@ -110,7 +115,7 @@ const createWebpackConfiguration = (): webpack.Configuration => {
                                 {
                                     loader: 'resolve-url-loader',
                                     options: {
-                                        root: path.resolve(__dirname, 'src'),
+                                        root: paths.src,
                                         sourceMap: true
                                     }
                                 },
@@ -136,18 +141,81 @@ const createWebpackConfiguration = (): webpack.Configuration => {
         plugins: [
             new CleanWebpackPlugin(),
             new HtmlWebpackPlugin({
-                template: path.resolve(__dirname, 'public', 'index.html')
+                inject: true,
+                template: paths.indexHtml,
+                ...(isDevelopment
+                    ? {}
+                    : {
+                          minify: {
+                              removeComments: true,
+                              collapseWhitespace: true,
+                              removeRedundantAttributes: true,
+                              useShortDoctype: true,
+                              removeEmptyAttributes: true,
+                              removeStyleLinkTypeAttributes: true,
+                              keepClosingSlash: true,
+                              minifyJS: true,
+                              minifyCSS: true,
+                              minifyURLs: true
+                          }
+                      })
+            }),
+            new DefinePlugin({
+                'process.env': Object.keys(clientEnvironment).reduce(
+                    (env, key) => ({
+                        ...env,
+                        [key]: JSON.stringify(
+                            clientEnvironment[key as keyof typeof clientEnvironment]
+                        )
+                    }),
+                    {}
+                )
+            }),
+            new InterpolateHtmlWebpackPlugin(clientEnvironment),
+            new ManifestWebpackPlugin({
+                fileName: 'asset-manifest.json',
+                publicPath: paths.publicUrlOrPath,
+                generate: (seed, files, entrypoints) => {
+                    const manifestFiles = files.reduce(
+                        (manifest, file) => ({
+                            ...manifest,
+                            [file.name as string]: file.path
+                        }),
+                        seed
+                    );
+
+                    const entrypointFiles = entrypoints.main.filter(
+                        fileName => !fileName.endsWith('.map')
+                    );
+
+                    return {
+                        files: manifestFiles,
+                        entrypoints: entrypointFiles
+                    };
+                }
             }),
             ...(isDevelopment
                 ? [new ReactRefreshWebpackPlugin()]
                 : [
                       new MiniCssExtractPlugin({
-                          filename: '[name].[contenthash].css'
+                          filename: 'static/css/[name].[contenthash:8].css',
+                          chunkFilename: 'static/css/[name].[contenthash:8].chunk.css'
+                      }),
+                      new CopyWebpackPlugin({
+                          patterns: [
+                              {
+                                  from: 'public/*',
+                                  to: '[name][ext]',
+                                  globOptions: {
+                                      ignore: ['**/index.html']
+                                  }
+                              }
+                          ]
                       })
                   ])
         ],
         resolve: {
-            alias: getWebpackResolveAlias(__dirname),
+            alias: getWebpackResolveAlias(paths.base),
             extensions: [
                 '.ts',
                 '.tsx',
@@ -161,10 +229,11 @@ const createWebpackConfiguration = (): webpack.Configuration => {
                 '.jpg',
                 '.jpeg'
             ],
-            modules: [path.resolve('./src'), path.resolve('./node_modules')]
+            modules: [paths.src, paths.nodeModules]
         },
         output: {
-            path: path.resolve(__dirname, 'build'),
+            publicPath: paths.publicUrlOrPath.slice(0, -1),
+            path: paths.build,
             pathinfo: isDevelopment,
             filename: isDevelopment
                 ? 'static/js/[name].bundle.js'
@@ -183,6 +252,9 @@ const createWebpackConfiguration = (): webpack.Configuration => {
             }
         },
         devServer: {
+            contentBase: paths.public,
+            contentBasePublicPath: paths.publicUrlOrPath,
+            publicPath: paths.publicUrlOrPath.slice(0, -1),
             compress: true,
             hot: true,
             port: 3000,
