@@ -1,5 +1,6 @@
 import path from 'path';
 import webpack from 'webpack';
+import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 
@@ -31,6 +32,7 @@ const createWebpackConfiguration = (): webpack.Configuration => {
             ]
         },
         plugins: [
+            new CleanWebpackPlugin(),
             new HtmlWebpackPlugin({
                 template: path.resolve(__dirname, 'public', 'index.html')
             }),
@@ -48,6 +50,7 @@ const createWebpackConfiguration = (): webpack.Configuration => {
             filename: isDevelopment ? '[name].bundle.js' : '[name].[contenthash].bundle.js'
         },
         devServer: {
+            compress: true,
             hot: true,
             port: 3000,
             open: true
