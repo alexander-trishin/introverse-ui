@@ -1,0 +1,70 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:import/typescript",
+        "plugin:jest/recommended",
+        "plugin:prettier/recommended",
+        "plugin:react/recommended",
+        "plugin:@typescript-eslint/recommended"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 2020,
+        "sourceType": "module"
+    },
+    "plugins": ["import", "jest", "react", "react-hooks", "@typescript-eslint"],
+    "rules": {
+        "@typescript-eslint/explicit-module-boundary-types": "off",
+        "jest/no-disabled-tests": "warn",
+        "jest/no-focused-tests": "error",
+        "jest/no-identical-title": "error",
+        "jest/prefer-to-have-length": "error",
+        "jest/valid-expect": "error",
+        "import/no-duplicates": ["error"],
+        "import/order": [
+            "error",
+            {
+                "groups": ["builtin", "external", "internal", ["parent", "sibling", "index"]],
+                "pathGroups": [
+                    { "pattern": "react", "group": "external", "position": "before" },
+                    { "pattern": "app", "group": "internal" }
+                ],
+                "newlines-between": "always"
+            }
+        ],
+        "linebreak-style": 0,
+        "padding-line-between-statements": [
+            "error",
+            { "blankLine": "always", "prev": ["const", "let"], "next": "*" },
+            {
+                "blankLine": "any",
+                "prev": ["const", "let"],
+                "next": ["const", "let"]
+            }
+        ],
+        "prefer-destructuring": ["error", { "array": true, "object": true }],
+        "react/jsx-handler-names": [
+            "error",
+            {
+                "eventHandlerPrefix": "handle",
+                "eventHandlerPropPrefix": "on"
+            }
+        ],
+        "react/react-in-jsx-scope": "off",
+        "sort-imports": ["error", { "ignoreDeclarationSort": true }],
+        "no-console": "error",
+        "no-redeclare": ["error", { "builtinGlobals": true }]
+    },
+    "settings": {
+        "react": {
+            "version": "detect"
+        }
+    }
+}
