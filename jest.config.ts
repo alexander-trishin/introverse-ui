@@ -28,7 +28,11 @@ const configuration: Config.InitialOptions = {
 
     maxWorkers: '50%',
 
-    moduleNameMapper: getJestModuleNameMapper()
+    moduleNameMapper: {
+        ...getJestModuleNameMapper(),
+        '\\.(jpg|jpeg|bmp|png|gif|svg)$': '<rootDir>/config/jest/fileMock.ts',
+        '\\.(sass|scss)$': '<rootDir>/config/jest/styleMock.ts'
+    }
 };
 
 export default configuration;
