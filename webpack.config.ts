@@ -4,6 +4,8 @@ import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 
+import { getWebpackResolveAlias } from './config';
+
 const createWebpackConfiguration = (): webpack.Configuration => {
     const isDevelopment = process.env.NODE_ENV !== 'production';
 
@@ -39,9 +41,7 @@ const createWebpackConfiguration = (): webpack.Configuration => {
             ...(isDevelopment ? [new ReactRefreshWebpackPlugin()] : [])
         ],
         resolve: {
-            alias: {
-                app: path.resolve(__dirname, 'src', 'app')
-            },
+            alias: getWebpackResolveAlias(__dirname),
             extensions: ['.ts', '.tsx', '.js'],
             modules: [path.resolve('./src'), path.resolve('./node_modules')]
         },

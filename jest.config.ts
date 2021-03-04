@@ -1,5 +1,7 @@
 import type { Config } from '@jest/types';
 
+import { getJestModuleNameMapper } from './config';
+
 const configuration: Config.InitialOptions = {
     bail: 3,
     clearMocks: true,
@@ -26,9 +28,7 @@ const configuration: Config.InitialOptions = {
 
     maxWorkers: '50%',
 
-    moduleNameMapper: {
-        '^app(.*)$': '<rootDir>/src/app$1'
-    }
+    moduleNameMapper: getJestModuleNameMapper()
 };
 
 export default configuration;
