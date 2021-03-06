@@ -1,5 +1,6 @@
-import Particles from 'react-tsparticles';
 import { Link } from 'react-router-dom';
+import Particles from 'react-tsparticles';
+
 import { Routes } from 'common/routes';
 
 import ParticlesOptions from './particles-config.json';

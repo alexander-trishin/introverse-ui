@@ -1,5 +1,6 @@
 import { Suspense, lazy } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
+
 import { Routes } from 'common/routes';
 
 const ComingSoonPage = lazy(() => import('pages/ComingSoonPage'));

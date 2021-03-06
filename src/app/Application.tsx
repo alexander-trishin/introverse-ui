@@ -1,5 +1,6 @@
 import { ErrorInfo, Suspense, lazy } from 'react';
 import { Route, Router, Switch } from 'react-router-dom';
+
 import { Routes } from 'common/routes';
 import { ErrorBoundary } from 'components';
 import { HistoryService } from 'services';

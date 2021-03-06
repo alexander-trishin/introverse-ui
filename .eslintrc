@@ -27,12 +27,24 @@
         "jest/no-identical-title": "error",
         "jest/prefer-to-have-length": "error",
         "jest/valid-expect": "error",
-        "import/no-duplicates": ["error"],
+        "import/no-duplicates": "error",
+        "import/no-unresolved": "error",
         "import/order": [
             "error",
             {
                 "groups": ["builtin", "external", "internal", ["parent", "sibling", "index"]],
-                "newlines-between": "always"
+                "pathGroups": [
+                    {
+                        "pattern": "react",
+                        "group": "external",
+                        "position": "before"
+                    }
+                ],
+                "newlines-between": "always",
+                "alphabetize": {
+                    "order": "asc",
+                    "caseInsensitive": true
+                }
             }
         ],
         "linebreak-style": 0,
@@ -61,6 +73,15 @@
         "no-redeclare": ["error", { "builtinGlobals": true }]
     },
     "settings": {
+        "import/parsers": {
+            "@typescript-eslint/parser": [".ts", ".tsx"]
+        },
+        "import/resolver": {
+            "typescript": {
+                "alwaysTryTypes": true,
+                "project": "tsconfig.json"
+            }
+        },
         "react": {
             "version": "detect"
         }

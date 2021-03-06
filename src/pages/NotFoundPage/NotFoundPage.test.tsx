@@ -1,7 +1,8 @@
-import { createMemoryHistory } from 'history';
-import { Router } from 'react-router-dom';
 import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { createMemoryHistory } from 'history';
+import { Router } from 'react-router-dom';
+
 import { Routes } from 'common/routes';
 
 import NotFoundPage from './NotFoundPage';

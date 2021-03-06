@@ -1,5 +1,6 @@
-import { History, createMemoryHistory } from 'history';
 import { render, waitFor } from '@testing-library/react';
+import { History, createMemoryHistory } from 'history';
+
 import { Routes } from 'common/routes';
 import { HistoryService } from 'services';
 
