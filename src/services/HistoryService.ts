@@ -4,12 +4,9 @@ class HistoryService {
     private static history?: History;
 
     static get instance() {
-        if (!this.history) {
-            this.history = createBrowserHistory({
-                basename: process.env.PUBLIC_URL ?? '/'
-            });
-        }
-        return this.history;
+        return (this.history ??= createBrowserHistory({
+            basename: process.env.PUBLIC_URL ?? '/'
+        }));
     }
 }
 
