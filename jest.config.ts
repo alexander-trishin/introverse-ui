@@ -29,10 +29,12 @@ const configuration: Config.InitialOptions = {
     maxWorkers: '50%',
 
     moduleNameMapper: {
-        ...getJestModuleNameMapper(),
+        '\\.(sass|scss)$': '<rootDir>/config/jest/styleMock.ts',
         '\\.(jpg|jpeg|bmp|png|gif|svg)$': '<rootDir>/config/jest/fileMock.ts',
-        '\\.(sass|scss)$': '<rootDir>/config/jest/styleMock.ts'
+        ...getJestModuleNameMapper()
     },
+
+    setupFilesAfterEnv: ['<rootDir>/config/jest/setupTests.ts'],
 
     testResultsProcessor: 'jest-sonar-reporter'
 };

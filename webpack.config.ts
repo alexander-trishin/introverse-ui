@@ -11,13 +11,13 @@ import { getClientEnvironment, getWebpackResolveAlias, paths } from './config';
 
 const createWebpackConfiguration = (): webpack.Configuration => {
     const clientEnvironment = getClientEnvironment(paths.publicUrlOrPath.slice(0, -1));
-    const isDevelopment = process.env.NODE_ENV !== 'production';
+    const isProduction = process.env.NODE_ENV === 'production';
 
     return {
-        bail: !isDevelopment,
-        mode: isDevelopment ? 'development' : 'production',
-        target: isDevelopment ? 'web' : 'browserslist',
-        devtool: isDevelopment ? 'eval' : 'source-map',
+        bail: isProduction,
+        mode: isProduction ? 'production' : 'development',
+        target: isProduction ? 'browserslist' : 'web',
+        devtool: isProduction ? 'source-map' : 'eval',
         entry: {
             main: [paths.indexTsx]
         },
@@ -43,30 +43,18 @@ const createWebpackConfiguration = (): webpack.Configuration => {
                             include: paths.src,
                             loader: 'babel-loader',
                             options: {
-                                plugins: [
-                                    [
-                                        'babel-plugin-named-asset-import',
-                                        {
-                                            loaderMap: {
-                                                svg: {
-                                                    Svg:
-                                                        '@svgr/webpack?-svgo,+titleProp,+ref![path]'
-                                                }
-                                            }
-                                        }
-                                    ],
-                                    ...(isDevelopment ? ['react-refresh/babel'] : [])
-                                ],
-                                cacheDirectory: isDevelopment,
-                                cacheCompression: !isDevelopment,
-                                compact: !isDevelopment
+                                babelrc: true,
+                                plugins: isProduction ? [] : ['react-refresh/babel'],
+                                cacheDirectory: !isProduction,
+                                cacheCompression: true,
+                                compact: isProduction
                             }
                         },
                         {
                             test: /\.(js|mjs)$/,
-                            exclude: /@babel(?:\/|\\{1,2})runtime/,
                             loader: 'babel-loader',
                             options: {
+                                babelrc: true,
                                 compact: false,
                                 cacheDirectory: true,
                                 cacheCompression: false,
@@ -77,14 +65,14 @@ const createWebpackConfiguration = (): webpack.Configuration => {
                         {
                             test: /\.(sass|scss)$/,
                             use: [
-                                isDevelopment
-                                    ? 'style-loader'
-                                    : {
+                                isProduction
+                                    ? {
                                           loader: MiniCssExtractPlugin.loader,
                                           options: paths.publicUrlOrPath.startsWith('.')
                                               ? { publicPath: '../../' }
                                               : {}
-                                      },
+                                      }
+                                    : 'style-loader',
                                 {
                                     loader: 'css-loader',
                                     options: {
@@ -143,9 +131,8 @@ const createWebpackConfiguration = (): webpack.Configuration => {
             new HtmlWebpackPlugin({
                 inject: true,
                 template: paths.indexHtml,
-                ...(isDevelopment
-                    ? {}
-                    : {
+                ...(isProduction
+                    ? {
                           minify: {
                               removeComments: true,
                               collapseWhitespace: true,
@@ -158,7 +145,8 @@ const createWebpackConfiguration = (): webpack.Configuration => {
                               minifyCSS: true,
                               minifyURLs: true
                           }
-                      })
+                      }
+                    : {})
             }),
             new DefinePlugin({
                 'process.env': Object.keys(clientEnvironment).reduce(
@@ -194,9 +182,8 @@ const createWebpackConfiguration = (): webpack.Configuration => {
                     };
                 }
             }),
-            ...(isDevelopment
-                ? [new ReactRefreshWebpackPlugin()]
-                : [
+            ...(isProduction
+                ? [
                       new MiniCssExtractPlugin({
                           filename: 'static/css/[name].[contenthash:8].css',
                           chunkFilename: 'static/css/[name].[contenthash:8].chunk.css'
@@ -212,40 +199,43 @@ const createWebpackConfiguration = (): webpack.Configuration => {
                               }
                           ]
                       })
-                  ])
+                  ]
+                : [new ReactRefreshWebpackPlugin()])
         ],
         resolve: {
             alias: getWebpackResolveAlias(paths.base),
-            extensions: [
-                '.ts',
-                '.tsx',
-                '.js',
-                '.sass',
-                '.scss',
-                '.json',
-                '.bmp',
-                '.gif',
-                '.png',
-                '.jpg',
-                '.jpeg'
-            ],
+            extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json'],
             modules: [paths.src, paths.nodeModules]
         },
         output: {
-            publicPath: paths.publicUrlOrPath.slice(0, -1),
+            publicPath: paths.publicUrlOrPath,
             path: paths.build,
-            pathinfo: isDevelopment,
-            filename: isDevelopment
-                ? 'static/js/[name].bundle.js'
-                : 'static/js/[name].[contenthash:8].js',
-            chunkFilename: isDevelopment
-                ? 'static/js/[name].chunk.js'
-                : 'static/js/[name].[contenthash:8].chunk.js'
+            pathinfo: !isProduction,
+            filename: isProduction
+                ? 'static/js/[name].[contenthash:8].js'
+                : 'static/js/[name].bundle.js',
+            chunkFilename: isProduction
+                ? 'static/js/[name].[contenthash:8].chunk.js'
+                : 'static/js/[name].chunk.js'
         },
         optimization: {
-            minimize: !isDevelopment,
+            minimize: isProduction,
             splitChunks: {
-                chunks: 'all'
+                chunks: 'all',
+                cacheGroups: {
+                    styles: {
+                        name: 'styles',
+                        test: /\.css$/,
+                        chunks: 'all',
+                        enforce: true
+                    },
+                    vendor: {
+                        test: /[\\/]node_modules[\\/](react|react-dom|react-router-dom|)[\\/]/,
+                        name: 'react-vendor',
+                        chunks: 'all',
+                        reuseExistingChunk: true
+                    }
+                }
             },
             runtimeChunk: {
                 name: (entrypoint: EntryObject) => `runtime-${entrypoint.name}`
@@ -255,6 +245,10 @@ const createWebpackConfiguration = (): webpack.Configuration => {
             contentBase: paths.public,
             contentBasePublicPath: paths.publicUrlOrPath,
             publicPath: paths.publicUrlOrPath.slice(0, -1),
+            historyApiFallback: {
+                disableDotRule: true,
+                index: paths.publicUrlOrPath
+            },
             compress: true,
             hot: true,
             port: 3000,

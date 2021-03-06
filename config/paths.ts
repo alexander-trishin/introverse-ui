@@ -5,11 +5,10 @@ const rootDirectory = fs.realpathSync(process.cwd());
 const resolvePath = (relativePath: string) => path.resolve(rootDirectory, relativePath);
 
 const getPublicUrlOrPath = (isDevelopment: boolean, envPublicUrl?: string) => {
-    const stubDomain = 'https://reactjs.org';
-
     if (envPublicUrl) {
         envPublicUrl = envPublicUrl.endsWith('/') ? envPublicUrl : envPublicUrl + '/';
 
+        const stubDomain = 'https://reactjs.org';
         const validPublicUrl = new URL(envPublicUrl, stubDomain);
 
         return isDevelopment

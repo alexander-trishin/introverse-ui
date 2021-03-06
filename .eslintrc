@@ -32,10 +32,6 @@
             "error",
             {
                 "groups": ["builtin", "external", "internal", ["parent", "sibling", "index"]],
-                "pathGroups": [
-                    { "pattern": "react", "group": "external", "position": "before" },
-                    { "pattern": "app", "group": "internal" }
-                ],
                 "newlines-between": "always"
             }
         ],
@@ -50,6 +46,7 @@
             }
         ],
         "prefer-destructuring": ["error", { "array": true, "object": true }],
+        "react/display-name": "off",
         "react/jsx-handler-names": [
             "error",
             {
@@ -57,6 +54,7 @@
                 "eventHandlerPropPrefix": "on"
             }
         ],
+        "react/prop-types": "off",
         "react/react-in-jsx-scope": "off",
         "sort-imports": ["error", { "ignoreDeclarationSort": true }],
         "no-console": "error",

@@ -2,11 +2,19 @@
     "compilerOptions": {
         "baseUrl": "./src",
         "paths": {
-            "app/*": ["app/*"]
+            "app/*": ["app/*"],
+            "assets/*": ["assets/*"],
+            "common/*": ["common/*"],
+            "components/*": ["components/*"],
+            "containers/*": ["containers/*"],
+            "pages/*": ["pages/*"],
+            "services/*": ["services/*"],
+            "utils/*": ["utils/*"]
         },
         "target": "es6",
         "lib": ["dom", "es6"],
         "jsx": "preserve",
+        "module": "esnext",
         "moduleResolution": "node",
         "allowJs": false,
         "allowSyntheticDefaultImports": true,
@@ -24,5 +32,12 @@
         "strict": true,
         "typeRoots": ["typings", "node_modules/@types"]
     },
-    "include": ["src"]
+    "include": ["src"],
+    "ts-node": {
+        "compilerOptions": {
+            "baseUrl": ".",
+            "paths": {},
+            "module": "none"
+        }
+    }
 }

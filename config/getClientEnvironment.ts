@@ -7,7 +7,7 @@ const getClientEnvironment = (publicUrl: string) => {
                 [key]: process.env[key]
             }),
             {
-                NODE_ENV: process.env.NODE_ENV || 'development',
+                NODE_ENV: process.env.NODE_ENV ?? 'development',
                 PUBLIC_URL: publicUrl
             }
         );
