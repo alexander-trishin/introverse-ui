@@ -1,11 +1,11 @@
-import webpack, { DefinePlugin, EntryObject } from 'webpack';
+import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import InterpolateHtmlWebpackPlugin from 'interpolate-html-plugin';
-import { WebpackManifestPlugin as ManifestWebpackPlugin } from 'webpack-manifest-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
+import webpack, { DefinePlugin, EntryObject } from 'webpack';
+import { WebpackManifestPlugin as ManifestWebpackPlugin } from 'webpack-manifest-plugin';
 
 import { getClientEnvironment, getWebpackResolveAlias, paths } from './config';
 
