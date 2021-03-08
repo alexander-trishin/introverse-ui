@@ -6,19 +6,20 @@ import { Routes } from 'common/routes';
 
 import MainPage from './MainPage';
 
+jest.mock('components/LoadingOverlay/LoadingOverlay', () => () => <div data-testid="loading" />);
 jest.mock('pages/ComingSoonPage/ComingSoonPage', () => () => <div data-testid="home" />);
 
 describe('<MainPage />', () => {
     it('should render suspense fallback', () => {
         const history = createMemoryHistory();
 
-        const { getByText } = render(
+        const { getByTestId } = render(
             <Router history={history}>
                 <MainPage />
             </Router>
         );
 
-        expect(getByText(/loading/i)).toBeInTheDocument();
+        expect(getByTestId('loading')).toBeInTheDocument();
     });
 
     it('should render home page', async () => {

@@ -2,7 +2,7 @@ import { ErrorInfo, Suspense, lazy } from 'react';
 import { Route, Router, Switch } from 'react-router-dom';
 
 import { Routes } from 'common/routes';
-import { ErrorBoundary } from 'components';
+import { ErrorBoundary, LoadingOverlay } from 'components';
 import { HistoryService } from 'services';
 
 import 'assets/scss/index.scss';
@@ -19,7 +19,7 @@ const Application = () => {
     return (
         <ErrorBoundary onError={handleError}>
             <Router history={HistoryService.instance}>
-                <Suspense fallback={<div>loading...</div>}>
+                <Suspense fallback={<LoadingOverlay />}>
                     <Switch>
                         <Route exact path={Routes.Error.NotFound} component={NotFoundPage} />
                         <Route

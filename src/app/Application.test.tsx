@@ -6,8 +6,8 @@ import { HistoryService } from 'services';
 
 import Application from './Application';
 
+jest.mock('components/LoadingOverlay/LoadingOverlay', () => () => <div data-testid="loading" />);
 jest.mock('pages/MainPage/MainPage', () => () => <div data-testid="main" />);
-
 jest.mock('pages/NotFoundPage/NotFoundPage', () => () => {
     throw new Error('test');
 });
@@ -20,9 +20,9 @@ describe('<Application />', () => {
     });
 
     it('should render suspense fallback', () => {
-        const { getByText } = render(<Application />);
+        const { getByTestId } = render(<Application />);
 
-        expect(getByText(/loading/i)).toBeInTheDocument();
+        expect(getByTestId('loading')).toBeInTheDocument();
     });
 
     it('should render home page', async () => {
