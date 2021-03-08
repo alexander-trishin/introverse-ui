@@ -1,0 +1,94 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<LoadingOverlay /> should match snapshot 1`] = `
+<div>
+  <div
+    class="loading-overlay"
+  >
+    <div
+      class="loader"
+    >
+      <div>
+        <div
+          class="arrow up outer-18"
+        />
+        <div
+          class="arrow down outer-17"
+        />
+        <div
+          class="arrow up outer-16"
+        />
+        <div
+          class="arrow down outer-15"
+        />
+        <div
+          class="arrow up outer-14"
+        />
+      </div>
+      <div>
+        <div
+          class="arrow up outer-1"
+        />
+        <div
+          class="arrow down outer-2"
+        />
+        <div
+          class="arrow up inner-6"
+        />
+        <div
+          class="arrow down inner-5"
+        />
+        <div
+          class="arrow up inner-4"
+        />
+        <div
+          class="arrow down outer-13"
+        />
+        <div
+          class="arrow up outer-12"
+        />
+      </div>
+      <div>
+        <div
+          class="arrow down outer-3"
+        />
+        <div
+          class="arrow up outer-4"
+        />
+        <div
+          class="arrow down inner-1"
+        />
+        <div
+          class="arrow up inner-2"
+        />
+        <div
+          class="arrow down inner-3"
+        />
+        <div
+          class="arrow up outer-11"
+        />
+        <div
+          class="arrow down outer-10"
+        />
+      </div>
+      <div>
+        <div
+          class="arrow down outer-5"
+        />
+        <div
+          class="arrow up outer-6"
+        />
+        <div
+          class="arrow down outer-7"
+        />
+        <div
+          class="arrow up outer-8"
+        />
+        <div
+          class="arrow down outer-9"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
